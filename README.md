@@ -30,9 +30,12 @@ Images are available at: [Docker Hub: mosathip/node-alpine-with-python](https://
 
 The provided workflow (see [`.github/workflows/docker.yml`](.github/workflows/docker.yml)) builds and pushes the image automatically. To enable Docker Hub publishing, set up these secrets in your GitHub repository:
 
-### Required GitHub Secrets
+### Required GitHub Variables
 
 - `DOCKERHUB_USERNAME`: Your Docker Hub username.
+
+### Required GitHub Secrets
+
 - `DOCKERHUB_TOKEN`: A Docker Hub [access token](https://docs.docker.com/docker-hub/access-tokens/) with push access to your repository.
 
 ### Build Arguments (customize Node and Python versions)
@@ -40,9 +43,9 @@ The provided workflow (see [`.github/workflows/docker.yml`](.github/workflows/do
 Edit the top of `docker.yml`:
 
 ```yaml
-    env:
-      NODE_VERSION: <your-node-version>
-      PYTHON_VERSION: <your-python-version>
+env:
+  NODE_VERSION: <your-node-version>
+  PYTHON_VERSION: <your-python-version>
 ```
 
 ---
