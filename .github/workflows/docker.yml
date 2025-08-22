@@ -1,0 +1,69 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  DOCKERHUB_REPOSITORY: mosathip/node-alpine-with-python
+
+jobs:
+  build-and-push:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - runner: ubuntu-24.04
+            platform: linux/amd64
+          - runner: ubuntu-24.04-arm
+            platform: linux/arm64
+    env:
+      NODE_VERSION: 18.20.8
+      PYTHON_VERSION: 3.10.18
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Generate Docker tags
+        id: vars
+        run: |
+          NODE_VERSION=${NODE_VERSION}
+          PYTHON_VERSION=${PYTHON_VERSION}
+
+          NODE_MAJOR=$(echo $NODE_VERSION | cut -d. -f1)
+          NODE_MINOR=$(echo $NODE_VERSION | cut -d. -f1,2)
+          NODE_PATCH=$NODE_VERSION
+
+          PYTHON_MAJOR=$(echo $PYTHON_VERSION | cut -d. -f1)
+          PYTHON_MINOR=$(echo $PYTHON_VERSION | cut -d. -f1,2)
+          PYTHON_PATCH=$PYTHON_VERSION
+
+          TAGS=(
+            "${NODE_PATCH}-${PYTHON_PATCH}"
+            "${NODE_PATCH}-${PYTHON_MINOR}"
+            "${NODE_MINOR}-${PYTHON_PATCH}"
+            "${NODE_MINOR}-${PYTHON_MINOR}"
+            "${NODE_MAJOR}-${PYTHON_PATCH}"
+            "${NODE_MAJOR}-${PYTHON_MINOR}"
+          )
+
+          TAGS_ARG=""
+          for TAG in "${TAGS[@]}"; do
+            TAGS_ARG="$TAGS_ARG --tag $DOCKERHUB_REPOSITORY:$TAG"
+          done
+          echo "TAGS_ARG=${TAGS_ARG}" >> $GITHUB_OUTPUT
+
+      - name: Build and push Docker image
+        run: |
+          docker buildx build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg PYTHON_VERSION=${PYTHON_VERSION} --platform ${{ matrix.platform }} ${{ steps.vars.outputs.TAGS_ARG }} --push .
