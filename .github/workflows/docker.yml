@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - Dockerfile
+      - .github/workflows/docker.yml
 
 env:
   DOCKERHUB_REPOSITORY: mosathip/node-alpine-with-python
@@ -127,4 +130,3 @@ jobs:
         run: |
           docker buildx imagetools create ${{ steps.vars.outputs.TAGS_ARG }} \
             $(printf '${{ env.DOCKERHUB_REPOSITORY }}@sha256:%s ' *)
-
