@@ -10,14 +10,7 @@ env:
 
 jobs:
   build-and-push:
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      matrix:
-        include:
-          - runner: ubuntu-24.04
-            platform: linux/amd64
-          - runner: ubuntu-24.04-arm
-            platform: linux/arm64
+    runs-on: ubuntu-24.04
     env:
       NODE_VERSION: 18.20.8
       PYTHON_VERSION: 3.10.18
@@ -64,6 +57,6 @@ jobs:
           done
           echo "TAGS_ARG=${TAGS_ARG}" >> $GITHUB_OUTPUT
 
-      - name: Build and push Docker image
+      - name: Build and push multi-arch Docker image
         run: |
-          docker buildx build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg PYTHON_VERSION=${PYTHON_VERSION} --platform ${{ matrix.platform }} ${{ steps.vars.outputs.TAGS_ARG }} --push .
+          docker buildx build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg PYTHON_VERSION=${PYTHON_VERSION} --platform linux/amd64,linux/arm64 ${{ steps.vars.outputs.TAGS_ARG }} --push .
