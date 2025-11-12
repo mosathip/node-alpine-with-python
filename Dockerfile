@@ -1,9 +1,9 @@
-# Date: 2025-11-12 14:00 +07:00
+# Date: 2025-11-12 14:18 +07:00
 
 ARG NODE_VERSION=18.20.8
 FROM node:$NODE_VERSION-alpine
 
-ARG PYTHON_VERSION=3.10.18
+ARG PYTHON_VERSION=3.10.19
 
 RUN apk update && apk upgrade && \
     # install dependencies package for build python

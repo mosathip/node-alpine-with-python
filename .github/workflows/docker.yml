@@ -11,7 +11,7 @@ on:
 env:
   DOCKERHUB_REPOSITORY: mosathip/node-alpine-with-python
   NODE_VERSION: 18.20.8
-  PYTHON_VERSION: 3.10.18
+  PYTHON_VERSION: 3.10.19
 
 jobs:
   build:

@@ -9,13 +9,13 @@ This repository builds and publishes a Docker image based on Node.js (Alpine var
 
 ## Image Tags Schema
 
-Each build will publish tags using combinations of the Node.js and Python versions, for maximum flexibility. For example, with `NODE_VERSION=18.20.8` and `PYTHON_VERSION=3.10.18`, tags created are:
+Each build will publish tags using combinations of the Node.js and Python versions, for maximum flexibility. For example, with `NODE_VERSION=18.20.8` and `PYTHON_VERSION=3.10.19`, tags created are:
 
-- `18.20.8-3.10.18`
+- `18.20.8-3.10.19`
 - `18.20.8-3.10`
-- `18.20-3.10.18`
+- `18.20-3.10.19`
 - `18.20-3.10`
-- `18-3.10.18`
+- `18-3.10.19`
 - `18-3.10`
 
 Tag format: `<node_version>-<python_version>`
@@ -55,7 +55,7 @@ env:
 To pull this image from Docker Hub:
 
 ```sh
-docker pull mosathip/node-alpine-with-python:18.20.8-3.10.18
+docker pull mosathip/node-alpine-with-python:18.20.8-3.10.19
 ```
 
 Substitute any valid version tag as shown above.
