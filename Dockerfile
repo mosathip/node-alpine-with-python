@@ -1,3 +1,5 @@
+# Date: 2025-11-12 14:00 +07:00
+
 ARG NODE_VERSION=18.20.8
 FROM node:$NODE_VERSION-alpine
 
