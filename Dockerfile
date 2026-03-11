@@ -3,7 +3,7 @@
 ARG NODE_VERSION=18.20.8
 FROM node:$NODE_VERSION-alpine
 
-ARG PYTHON_VERSION=3.10.19
+ARG PYTHON_VERSION=3.10.20
 
 RUN apk update && apk upgrade && \
     # install dependencies package for build python
